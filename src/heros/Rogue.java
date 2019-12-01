@@ -7,7 +7,6 @@ import static helpers.Constants.EVERY_THREE_ROUNDS;
 import static helpers.Constants.INCREASE_DAMAGE_BACKSTAB;
 import static helpers.Constants.INCREASE_DAMAGE_PARALYSIS;
 import static helpers.Constants.INITIAL_DAMAGE_BACKSTAB;
-import static helpers.Constants.INITIAL_HP_PYROMANCER;
 import static helpers.Constants.INITIAL_HP_ROGUE;
 import static helpers.Constants.INITIAL_PARALYSIS_DAMAGE;
 import static helpers.Constants.KNIGHT_MODIFIER_BACKSTAB;
@@ -26,7 +25,7 @@ import static helpers.Constants.WOODS_TERRAIN;
 
 public class Rogue extends Hero {
 
-    private int count = 3;
+    private int count = EVERY_THREE_ROUNDS;
     private boolean firstStrike = false;
     private Modifier backstabModifier = new Modifier();
     private Modifier paralysisModifier = new Modifier();
@@ -37,6 +36,9 @@ public class Rogue extends Hero {
         super.setMaxHP(INITIAL_HP_ROGUE);
     }
 
+    /**
+     * pregatesc eroul de joc, setandu-i modificatorii.
+     */
     @Override
     public void prepareHero() {
 
@@ -54,8 +56,12 @@ public class Rogue extends Hero {
         paralysisModifier.setLandModifier(TERRAIN_MODIFIER_WOODS);
     }
 
+    /**
+     * rogue-ul ataca.
+     * @param enemy
+     */
     @Override
-    public void battles(Hero enemy) {
+    public void battles(final Hero enemy) {
         this.prepareHero();
         int paralysedRoundsCount = 0;
         float backstabDamage = INITIAL_DAMAGE_BACKSTAB
@@ -64,7 +70,6 @@ public class Rogue extends Hero {
                 + INCREASE_DAMAGE_PARALYSIS * this.getLevel();
         float paralysisPassiveDamage = INITIAL_PARALYSIS_DAMAGE
                 + INCREASE_DAMAGE_PARALYSIS * this.getLevel();
-        System.out.println(backstabDamage + " " + paralysisActiveDamage);
         firstStrike = true;
         if (count % EVERY_THREE_ROUNDS == 0) {
             if (this.getTerrain() == WOODS_TERRAIN) {
@@ -76,7 +81,6 @@ public class Rogue extends Hero {
                 count = 0;
             }
         }
-        System.out.println(backstabDamage + " " + paralysisActiveDamage);
         this.count++;
         if (this.getTerrain() == 'W') {
             paralysedRoundsCount = WOODS_OVERTIME_ROUNDS;
@@ -89,23 +93,28 @@ public class Rogue extends Hero {
         }
         if (enemy instanceof Pyromancer) {
             backstabDamage += backstabDamage * backstabModifier.getPyromancerModifier();
-            paralysisActiveDamage += paralysisActiveDamage * paralysisModifier.getPyromancerModifier();
-            paralysisPassiveDamage += paralysisPassiveDamage * paralysisModifier.getPyromancerModifier();
+            paralysisActiveDamage
+                    += paralysisActiveDamage * paralysisModifier.getPyromancerModifier();
+            paralysisPassiveDamage
+                    += paralysisPassiveDamage * paralysisModifier.getPyromancerModifier();
         }
         if (enemy instanceof Wizard) {
             backstabDamage += backstabDamage * backstabModifier.getWizardModifier();
             paralysisActiveDamage += paralysisActiveDamage * paralysisModifier.getWizardModifier();
-            paralysisPassiveDamage += paralysisPassiveDamage * paralysisModifier.getWizardModifier();
+            paralysisPassiveDamage +=
+                    paralysisPassiveDamage * paralysisModifier.getWizardModifier();
         }
         if (enemy instanceof  Knight) {
             backstabDamage += backstabDamage * backstabModifier.getKnightModifier();
             paralysisActiveDamage += paralysisActiveDamage * paralysisModifier.getKnightModifier();
-            paralysisPassiveDamage += paralysisPassiveDamage * paralysisModifier.getKnightModifier();
+            paralysisPassiveDamage +=
+                    paralysisPassiveDamage * paralysisModifier.getKnightModifier();
         }
         if (enemy instanceof Rogue) {
             backstabDamage += backstabDamage * backstabModifier.getRogueModifier();
             paralysisActiveDamage += paralysisActiveDamage * paralysisModifier.getRogueModifier();
-            paralysisPassiveDamage += paralysisPassiveDamage * paralysisModifier.getRogueModifier();
+            paralysisPassiveDamage +=
+                    paralysisPassiveDamage * paralysisModifier.getRogueModifier();
         }
         int totalActiveDamage = Math.round(backstabDamage) + Math.round(paralysisActiveDamage);
         int totalPassiveDamage = Math.round(paralysisPassiveDamage);
@@ -115,26 +124,27 @@ public class Rogue extends Hero {
 
     }
 
+    /**
+     * @return damage ul nemodificat dat de rogue.
+     */
     public int getUnmodifiedDamage() {
         float backstabDmg = INITIAL_DAMAGE_BACKSTAB
                 + INCREASE_DAMAGE_BACKSTAB * this.getLevel();
         float paralysisActiveDmg = INITIAL_PARALYSIS_DAMAGE
                 + INCREASE_DAMAGE_PARALYSIS * this.getLevel();
-        if (firstStrike ) {
+        if (firstStrike) {
             if (count == 1 && this.getTerrain() == 'W') {
-                backstabDmg = backstabDmg * BACKSTAB_COMBO; }
-
+                backstabDmg = backstabDmg * BACKSTAB_COMBO;
+            }
         } else {
             if (count == EVERY_THREE_ROUNDS && this.getTerrain() == 'W') {
                 backstabDmg += backstabDmg * BACKSTAB_COMBO;
             }
         }
-        System.out.println("EDDD1 " + backstabDmg + " " + paralysisActiveDmg);
         if (this.getTerrain() == 'W') {
             backstabDmg += backstabDmg * backstabModifier.getLandModifier();
             paralysisActiveDmg += paralysisActiveDmg * paralysisModifier.getLandModifier();
         }
-        System.out.println("EDDD " + backstabDmg + " " + paralysisActiveDmg);
         return Math.round(backstabDmg) + Math.round(paralysisActiveDmg);
     }
 }

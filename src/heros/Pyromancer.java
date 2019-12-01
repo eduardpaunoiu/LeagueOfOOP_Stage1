@@ -14,7 +14,6 @@ import static helpers.Constants.PASSIVE_DAMAGE_IGNITE;
 import static helpers.Constants.PYROMANCER_MODIFIER_FIREBLAST;
 import static helpers.Constants.ROGUE_MODIFIER_FIREBLAST;
 import static helpers.Constants.ROUNDS_AFFECTED_IGNITE;
-import static helpers.Constants.TERRAIN_MODIFIER_LAND;
 import static helpers.Constants.TERRAIN_MODIFIER_VOLCANIC;
 import static helpers.Constants.VOLCANIC_TERRAIN;
 import static helpers.Constants.WIZARD_MODIFIER_FIREBLAST;
@@ -43,6 +42,9 @@ public class Pyromancer extends Hero {
 
     }
 
+    /**
+     * pregatesc pyromancerul de joc.
+     */
     @Override
     public void prepareHero() {
         fireblastDamage = INITIAL_DAMAGE_FIREBLAST;
@@ -112,9 +114,9 @@ public class Pyromancer extends Hero {
         int roundedDamageFireblast = Math.round(fireblastDamage);
         int roundedActiveDamageIgnite = Math.round(igniteActiveDamage);
 
-        totalActiveDamage = roundedDamageFireblast + roundedActiveDamageIgnite;
+        totalActiveDamage = roundedDamageFireblast
+                + roundedActiveDamageIgnite;
         totalPassiveDamage = Math.round(ignitePassiveDamage);
-        System.out.println(roundedDamageFireblast + " " + roundedActiveDamageIgnite + " " + totalPassiveDamage);
         enemy.takeDamage(totalActiveDamage);
         enemy.setPassiveDamage(ROUNDS_AFFECTED_IGNITE, totalPassiveDamage);
     }
@@ -134,10 +136,15 @@ public class Pyromancer extends Hero {
         return totalPassiveDamage;
     }
 
+    /**
+     * @return damage ul nemodificat dat de pyromancer.
+     */
     @Override
     public int getUnmodifiedDamage() {
-        float fireblastDmg = INITIAL_DAMAGE_FIREBLAST + INCREASE_DAMAGE_FIREBLAST * this.getLevel();;
-        float igniteActiveDmg = INITIAL_DAMAGE_IGNITE + INCREASE_PASSIVEDMG_IGNITE * this.getLevel();
+        float fireblastDmg = INITIAL_DAMAGE_FIREBLAST
+                + INCREASE_DAMAGE_FIREBLAST * this.getLevel();
+        float igniteActiveDmg = INITIAL_DAMAGE_IGNITE
+                + INCREASE_PASSIVEDMG_IGNITE * this.getLevel();
         if (this.getTerrain() == VOLCANIC_TERRAIN) {
             fireblastDmg += fireblastDmg * TERRAIN_MODIFIER_VOLCANIC;
             igniteActiveDmg += igniteActiveDmg * TERRAIN_MODIFIER_VOLCANIC;

@@ -1,6 +1,5 @@
 package main;
 
-
 import heros.Hero;
 import heros.Rogue;
 import fileio.FileSystem;
@@ -26,25 +25,22 @@ public final class Main {
 
     for (int i = 0; i < noRounds; i++) {
         for (int j = 0; j < noPlayers; j++) {
-            if (! heroList.get(j).isKilled()) {
+            if (!heroList.get(j).isKilled()) {
                 if (movesList.get(i).charAt(j) == 'L') {
-                    if (! heroList.get(j).isImmobilized()) {
+                    if (!heroList.get(j).isImmobilized()) {
                         heroList.get(j).moveLeft();
                     }
-                }
-                else if(movesList.get(i).charAt(j) == 'R') {
-                        if (! heroList.get(j).isImmobilized()) {
+                } else if (movesList.get(i).charAt(j) == 'R') {
+                        if (!heroList.get(j).isImmobilized()) {
                             heroList.get(j).moveRight();
 
                         }
-                }
-                else if(movesList.get(i).charAt(j) == 'U') {
-                        if (! heroList.get(j).isImmobilized()) {
+                } else if (movesList.get(i).charAt(j) == 'U') {
+                        if (!heroList.get(j).isImmobilized()) {
                             heroList.get(j).moveUp();
                         }
-                }
-                else if(movesList.get(i).charAt(j) == 'D') {
-                        if (! heroList.get(j).isImmobilized()) {
+                } else if (movesList.get(i).charAt(j) == 'D') {
+                        if (!heroList.get(j).isImmobilized()) {
                             heroList.get(j).moveDown();
                         }
                 }
@@ -62,8 +58,8 @@ public final class Main {
 
         for (int m = 0; m <  noPlayers - 1; m++) {
             for (int n = m + 1; n < noPlayers; n++) {
-                if ( (!heroList.get(m).isKilled() )
-                && (!heroList.get(n).isKilled()) ) {
+                if ((!heroList.get(m).isKilled())
+                && (!heroList.get(n).isKilled())) {
                     if (heroList.get(m).getxPosition() == heroList.get(n).getxPosition()
                     && heroList.get(m).getyPosition() == heroList.get(n).getyPosition()) {
                         if (heroList.get(n) instanceof Rogue) {
@@ -74,20 +70,14 @@ public final class Main {
                             heroList.get(n).battles(heroList.get(m));
                         }
                       }
-                    if (! heroList.get(m).isKilled() && heroList.get(n).isKilled()) {
+                    if (!heroList.get(m).isKilled() && heroList.get(n).isKilled()) {
                         heroList.get(m).experienceAndLevelUp(heroList.get(n));
-                    }
-                    else if (heroList.get(m).isKilled() && ! heroList.get(n).isKilled()) {
+                    } else if (heroList.get(m).isKilled() && !heroList.get(n).isKilled()) {
                         heroList.get(n).experienceAndLevelUp(heroList.get(m));
                     }
                 }
             }
         }
-        System.out.println("Round: " + i);
-        for(Hero hero : heroList) {
-            System.out.println(hero.getLevel() + " " + hero.getXp() + " " + hero.getCurrentHP() + " " + hero.getxPosition() + " " + hero.getyPosition());
-        }
-        System.out.println("----------End---------");
     }
 
         FileSystem writer = new FileSystem(args[0], args[1]);

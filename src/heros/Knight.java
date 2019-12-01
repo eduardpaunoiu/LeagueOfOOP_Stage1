@@ -10,7 +10,6 @@ import static helpers.Constants.INCREASE_DAMAGE_SLAM;
 import static helpers.Constants.INITIAL_DAMAGE_EXECUTE;
 import static helpers.Constants.INITIAL_DAMAGE_SLAM;
 import static helpers.Constants.INITIAL_HP_KNIGHT;
-import static helpers.Constants.INITIAL_HP_PYROMANCER;
 import static helpers.Constants.KNIGHT_MODIFIER_EXECUTE;
 import static helpers.Constants.KNIGHT_MODIFIER_SLAM;
 import static helpers.Constants.LAND_TERRAIN;
@@ -126,6 +125,9 @@ public class Knight extends Hero {
         return totalDamage;
     }
 
+    /**
+     * @return damage ul nemodificat dat de knight.
+     */
     public int getUnmodifiedDamage() {
        float executeDmg = INITIAL_DAMAGE_EXECUTE;
        float slamDmg = INITIAL_DAMAGE_SLAM;

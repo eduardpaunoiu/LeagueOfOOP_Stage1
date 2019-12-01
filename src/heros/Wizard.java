@@ -7,7 +7,6 @@ import static helpers.Constants.DESERT_TERRAIN;
 import static helpers.Constants.DRAIN_PROCENT;
 import static helpers.Constants.INCREASE_DEFLECT_PROCENT;
 import static helpers.Constants.INCREASE_DRAIN_PROCENT;
-import static helpers.Constants.INITIAL_HP_PYROMANCER;
 import static helpers.Constants.INITIAL_HP_WIZARD;
 import static helpers.Constants.KNIGHT_MODIFIER_DEFLECT;
 import static helpers.Constants.KNIGHT_MODIFIER_DRAIN;
@@ -33,6 +32,9 @@ public class Wizard extends Hero {
         super.setMaxHP(INITIAL_HP_WIZARD);
     }
 
+    /**
+     * pregatesc wizard-ul de atac.
+     */
     @Override
     public void prepareHero() {
         drainModifier.setPyromancerModifier(PYROMANCER_MODIFIER_DRAIN);
@@ -48,21 +50,22 @@ public class Wizard extends Hero {
 
     }
 
+    /**
+     * eizard ul ataca.
+     */
     @Override
     public void battles(final Hero enemy) {
         this.prepareHero();
         float drainProcent = DRAIN_PROCENT;
         float deflectProcent = DEFLECT_PROCENT;
         float deflectDamage = 0f;
-       // System.out.println("ceva1 " + drainProcent + " " + deflectProcent + " " + deflectDamage);
         drainProcent += INCREASE_DRAIN_PROCENT * this.getLevel();
         deflectProcent += INCREASE_DEFLECT_PROCENT * this.getLevel();
         if (deflectProcent >= MAX_DEFLECT_PROCENT) {
             deflectProcent = MAX_DEFLECT_PROCENT;
         }
-        float hp_limit = Math.min(MAX_HP_COEF_DRAIN * enemy.getMaxHP(),
+        float hpLimit = Math.min(MAX_HP_COEF_DRAIN * enemy.getMaxHP(),
                 enemy.getCurrentHP());
-       System.out.println("hp_limit " + hp_limit);
         if (enemy instanceof Rogue) {
             drainProcent += drainProcent * drainModifier.getRogueModifier();
             deflectProcent += deflectProcent * deflectModifier.getRogueModifier();
@@ -82,21 +85,15 @@ public class Wizard extends Hero {
             deflectProcent += deflectProcent * deflectModifier.getKnightModifier();
             deflectDamage = deflectProcent * enemy.getUnmodifiedDamage();
         }
-        float drainDamage = drainProcent * hp_limit;
-        System.out.println("drain damage" + drainDamage);
+        float drainDamage = drainProcent * hpLimit;
 
         if (this.getTerrain() == DESERT_TERRAIN) {
             drainDamage += drainDamage * drainModifier.getLandModifier();
             deflectDamage += deflectDamage * drainModifier.getLandModifier();
         }
-
-        System.out.println("ceva eee" + drainProcent + " " + deflectProcent + " " + deflectDamage + " " + drainDamage);
         int roundedDrainDamage = Math.round(drainDamage);
         int roundedDeflectDamage = Math.round(deflectDamage);
-        System.out.println("rotunjite" + roundedDrainDamage + " " + roundedDeflectDamage);
         int totalDamage = roundedDrainDamage + roundedDeflectDamage;
-        System.out.println("damage total " + totalDamage);
         enemy.takeDamage(totalDamage);
-        System.out.println(enemy.getCurrentHP());
     }
 }

@@ -92,6 +92,4 @@ public class GameInput {
         return movesList;
     }
 
-    //o functie boolean care verifica daca inputul este valid
-    //-> vezi tema cealalta
 }

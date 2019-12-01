@@ -79,8 +79,6 @@ public class GameInputLoader {
         }
 
         return new GameInput(rows, columns, arena, noPlayers, heroList, noRounds, moves);
-        /*aici modifici contructorul din gameinput dupa ce adaugi pozitiile si ce
-        plm mai trebuie sa citesc din fisierul de intrare */
     }
 
 

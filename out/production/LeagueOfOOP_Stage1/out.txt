@@ -1,7 +1,7 @@
 P 0 0 190 0 0
 K dead
-W 0 200 135 1 0
+W dead
 P 0 0 190 2 0
 K dead
 W dead
-R 0 200 470 2 1
+R 4 400 760 2 1

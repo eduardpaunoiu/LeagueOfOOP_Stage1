@@ -74,6 +74,10 @@ public class Hero {
         this.levelUpHP = levelUpHP;
     }
 
+    /**
+     * seteaza nivelul.
+     * @param lvl
+     */
     public void setLevel(final int lvl) {
         this.level = lvl;
     }
@@ -85,16 +89,30 @@ public class Hero {
         return level;
     }
 
+    /**
+     * @return tipul de teren pe care se afla un erou.
+     */
     public char getTerrain() {
         return terrain;
     }
 
+    /**
+     * @return hp-ul curent al eroului.
+     */
     public int getCurrentHP() {
         return currentHP;
     }
 
-    public void setCurrentHP(final int hp) { this.currentHP = hp; }
+    /**
+     * setez hp-ul curent al eroului.
+     */
+    public void setCurrentHP(final int hp) {
+        this.currentHP = hp;
+    }
 
+    /**
+     * returnez hp-ul maxim al unui erou.
+     */
     public int getMaxHP() {
         return maxHP;
     }
@@ -142,6 +160,9 @@ public class Hero {
         level++;
     }
 
+    /**
+     * @return experienta eroului.
+     */
     public int getXp() {
         return xp;
     }
@@ -155,13 +176,13 @@ public class Hero {
 
 
     /**
-     * eroul primeste damage pasiv
+     * eroul primeste damage pasiv.
      */
-    public void takePassiveDamage(final int passiveDamage) {
-        this.currentHP -= passiveDamage;
+    public void takePassiveDamage(final int dmg) {
+        this.currentHP -= dmg;
     }
 
-    public void battles(Hero enemy) {
+    public void battles(final Hero enemy) {
 
     }
 
@@ -169,30 +190,32 @@ public class Hero {
 
     }
 
+    /**
+     * va fi suprascrisa in clasele ce extind hero.
+     */
     public int getUnmodifiedDamage() {
         return 0;
     }
 
-    public void moveHero (final char land, final int x, final int y) {
-        if (! isKilled()) {
-            if (this.immobilized == 0) {
-                this.terrain = land;
-                this.xPosition = x;
-                this.yPosition = y;
-            } else {
-                --this.immobilized;
-            }
-        }
-    }
-
+    /**
+     * imobilizez eroul pentru un numar de runde.
+     * @param rounds rundele.
+     */
     public void immobilizeEnemy(final int rounds) {
         this.immobilized = rounds;
     }
 
-    public boolean isImmobilized(){
+    /**
+     *verific daca eroul este imobilizat.
+     */
+    public boolean isImmobilized() {
         return immobilized != 0;
     }
 
+    /**
+     * eroul primeste un damage pasiv pentru un numar de runde(passivecount).
+     * count-ul scade de fiecare data cand se aplica damage ul.
+     */
     public void getPassiveDamage() {
         if (this.passiveCount != 0) {
             this.takePassiveDamage(this.passiveDamage);
@@ -201,31 +224,41 @@ public class Hero {
 
     }
 
+    /**
+     * @param count numarul de runde in care eroul primeste damage pasiv.
+     * @param passDmg damage ul pasiv primit de erou.
+     */
     public void setPassiveDamage(final int count, final int passDmg) {
         this.passiveCount = count;
         this.passiveDamage = passDmg;
     }
 
+    /**
+     * @return numarul de runde in care eroul e imobilizat.
+     */
     public int getImmobilized() {
         return immobilized;
     }
 
-    public void setImmobilized(int immobilized) {
+    /**
+     * face un erou imobilizat pentru un numar de runde.
+     * @param immobilized
+     */
+    public void setImmobilized(final int immobilized) {
         this.immobilized = immobilized;
     }
 
-    public void experienceAndLevelUp(Hero enemy) {
-        System.out.println("bla bla " + this.xp);
-
+    /**
+     * metoda prin care dau experienta eroilor si level up.
+     */
+    public void experienceAndLevelUp(final Hero enemy) {
         this.xp = this.xp + Math.max(0, XP_POINTS
                 - (this.getLevel() - enemy.getLevel()) * XP_POINTS_COEFFICIENT);
-        System.out.println("bla bla " + this.xp);
         int k = (this.getXp() - INITIAL_XP) / LEVEL_UP_XP;
         if (this.getXp() - INITIAL_XP < 0) {
             this.setLevel(0);
-        }
-        else {
-            this.setLevel(k+1);
+        } else {
+            this.setLevel(k + 1);
             if (this instanceof Pyromancer) {
                 this.currentHP = INITIAL_HP_PYROMANCER + LEVEL_UP_HP_PYROMANCER * this.getLevel();
                 this.maxHP = currentHP;
@@ -247,6 +280,9 @@ public class Hero {
 
     }
 
+    /**
+     * @return outputul cerut de cerinta.
+     */
     public String output() {
         if (this instanceof Wizard) {
             if (!this.isKilled()) {
@@ -291,7 +327,11 @@ public class Hero {
         }
     }
 
-    protected void setMaxHP(int i) {
+    /**
+     * seteaza hp-ul maxim in clasele care extind hero.
+     * @param i
+     */
+    public void setMaxHP(final int i) {
         this.maxHP = i;
     }
 }
