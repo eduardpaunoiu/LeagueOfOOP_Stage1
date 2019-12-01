@@ -1,6 +1,6 @@
-package com.project1.main;
+package main;
 
-import com.project1.heros.Hero;
+import heros.Hero;
 
 import java.util.LinkedList;
 import java.util.List;

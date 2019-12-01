@@ -1,10 +1,10 @@
-package com.project1.main;
+package main;
 
-import com.project1.heros.Hero;
-import com.project1.heros.Knight;
-import com.project1.heros.Pyromancer;
-import com.project1.heros.Rogue;
-import com.project1.heros.Wizard;
+import heros.Hero;
+import heros.Knight;
+import heros.Pyromancer;
+import heros.Rogue;
+import heros.Wizard;
 import fileio.FileSystem;
 
 import java.util.LinkedList;
@@ -53,13 +53,13 @@ public class GameInputLoader {
                 Hero myHero = new Hero();
 
                 if (playerType == 'W') {
-                    myHero = new Wizard(positionX, positionY);
+                    myHero = new Wizard(positionX, positionY, arena[positionX][positionY]);
                 } else if (playerType == 'P') {
-                    myHero = new Pyromancer(positionX, positionY);
+                    myHero = new Pyromancer(positionX, positionY, arena[positionX][positionY]);
                 } else if (playerType == 'R') {
-                    myHero = new Rogue(positionX, positionY);
+                    myHero = new Rogue(positionX, positionY, arena[positionX][positionY]);
                 } else if (playerType == 'K') {
-                    myHero = new Knight(positionX, positionY);
+                    myHero = new Knight(positionX, positionY, arena[positionX][positionY]);
                 }
 
                 heroList.add(myHero);
